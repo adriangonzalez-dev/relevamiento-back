@@ -34,6 +34,12 @@ export interface Incident {
   id: number; // Request ID
 }
 
+export interface Category {
+  id: string;
+  name: string;
+  parent_category_id: number;
+}
+
 @Injectable()
 export class InvgateService {
   private readonly url_api: string;
@@ -65,7 +71,9 @@ export class InvgateService {
   }
 
   async getAllCategories() {
-    const data = this.axiosAdapter.getInvgate(`${this.url_api}/categories`);
+    const data = await this.axiosAdapter.getInvgate<Promise<Category[]>>(
+      `${this.url_api}/categories`,
+    );
     return data;
   }
 
@@ -73,6 +81,11 @@ export class InvgateService {
     const data = this.axiosAdapter.getInvgate(
       `${this.url_api}/incident.attributes.type`,
     );
+    return data;
+  }
+
+  async getAllLocations() {
+    const data = this.axiosAdapter.getInvgate(`${this.url_api}/locations`);
     return data;
   }
 
@@ -85,6 +98,6 @@ export class InvgateService {
 
   async checkingClosedIncident() {
     /* Una vez que se tenga la db se deberian buscar en la db los incidentes con closed_at = null,
-     buscarlos en invgate y verificar si ya fueron cerrados, y actualizarlos en la db*/
+     buscarlos en invgate, verificar si ya fueron cerrados, y actualizarlos en la db*/
   }
 }

@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { ViaSolicitudService } from './via_solicitud.service';
 import { CreateViaSolicitudDto } from './dto/create-via_solicitud.dto';
 import { UpdateViaSolicitudDto } from './dto/update-via_solicitud.dto';
@@ -23,7 +31,10 @@ export class ViaSolicitudController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateViaSolicitudDto: UpdateViaSolicitudDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateViaSolicitudDto: UpdateViaSolicitudDto,
+  ) {
     return this.viaSolicitudService.update(+id, updateViaSolicitudDto);
   }
 

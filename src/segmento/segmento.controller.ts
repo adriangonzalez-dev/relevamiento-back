@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { SegmentoService } from './segmento.service';
 import { CreateSegmentoDto } from './dto/create-segmento.dto';
 import { UpdateSegmentoDto } from './dto/update-segmento.dto';
@@ -23,7 +31,10 @@ export class SegmentoController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSegmentoDto: UpdateSegmentoDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateSegmentoDto: UpdateSegmentoDto,
+  ) {
     return this.segmentoService.update(+id, updateSegmentoDto);
   }
 

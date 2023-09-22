@@ -49,3 +49,8 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
+## Error Class validator
+
+Class Validator instala una versión deprecada de @nestjs/mapped-types
+Para solucionar se instala @nestjs/mapped-types@latest

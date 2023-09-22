@@ -3,9 +3,9 @@ import { CreatePaiDto } from './dto/create-pai.dto';
 import { UpdatePaiDto } from './dto/update-pai.dto';
 
 @Injectable()
-export class PaisService {
+export class CountryService {
   create(createPaiDto: CreatePaiDto) {
-    return 'This action adds a new pai';
+    return createPaiDto;
   }
 
   findAll() {
@@ -17,6 +17,7 @@ export class PaisService {
   }
 
   update(id: number, updatePaiDto: UpdatePaiDto) {
+    updatePaiDto;
     return `This action updates a #${id} pai`;
   }
 

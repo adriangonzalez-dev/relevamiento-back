@@ -1,23 +1,20 @@
 import {
   Entity,
   Column,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
+
 @Entity()
-export class Via {
-  @PrimaryGeneratedColumn()
+export class Country {
+  @PrimaryColumn('numeric')
   id: number;
 
-  @Column('text', {
-    unique: true,
-  })
+  @Column('text')
   name: string;
 
-  @Column('boolean', {
-    default: true,
-  })
+  @Column('boolean')
   active: boolean;
 
   @CreateDateColumn()

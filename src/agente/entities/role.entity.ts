@@ -5,19 +5,16 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
+
 @Entity()
-export class Via {
+export class Role {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column('text', {
-    unique: true,
-  })
+  @Column('text')
   name: string;
 
-  @Column('boolean', {
-    default: true,
-  })
+  @Column('boolean')
   active: boolean;
 
   @CreateDateColumn()

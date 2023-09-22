@@ -8,15 +8,15 @@ import {
   Delete,
 } from '@nestjs/common';
 import { DataService } from './data.service';
-import { CreateDatumDto } from './dto/create-datum.dto';
-import { UpdateDatumDto } from './dto/update-datum.dto';
+import { CreateDataDto } from './dto/create-data.dto';
+import { UpdateDataDto } from './dto/update-data.dto';
 
 @Controller('data')
 export class DataController {
   constructor(private readonly dataService: DataService) {}
 
   @Post()
-  create(@Body() createDatumDto: CreateDatumDto) {
+  create(@Body() createDatumDto: CreateDataDto) {
     return this.dataService.create(createDatumDto);
   }
 
@@ -31,7 +31,7 @@ export class DataController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDatumDto: UpdateDatumDto) {
+  update(@Param('id') id: string, @Body() updateDatumDto: UpdateDataDto) {
     return this.dataService.update(+id, updateDatumDto);
   }
 

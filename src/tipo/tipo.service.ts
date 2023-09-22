@@ -1,26 +1,45 @@
-import { Injectable } from '@nestjs/common';
-import { CreateTipoDto } from './dto/create-tipo.dto';
-import { UpdateTipoDto } from './dto/update-tipo.dto';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { InvgateService } from 'src/invgate/invgate.service';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Type } from './entities/tipo.entity';
 
 @Injectable()
 export class TipoService {
-  create(createTipoDto: CreateTipoDto) {
-    return 'This action adds a new tipo';
-  }
+  constructor(
+    private readonly invgateService: InvgateService,
+    @InjectRepository(Type)
+    private readonly typeRepository: Repository<Type>,
+  ) {}
 
-  findAll() {
-    return `This action returns all tipo`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} tipo`;
-  }
-
-  update(id: number, updateTipoDto: UpdateTipoDto) {
-    return `This action updates a #${id} tipo`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} tipo`;
+  async updateTypes() {
+    try {
+      const categories = await this.invgateService.getAllCategories();
+      const findCategories = categories.filter((category) => {
+        return category.parent_category_id === 363;
+      });
+      findCategories.forEach(async (category) => {
+        const existsCategory = await this.typeRepository.findOne({
+          where: { id: Number(category.id) },
+        });
+        if (existsCategory) {
+          if (existsCategory.name !== category.name) {
+            existsCategory.name = category.name;
+            await this.typeRepository.save(existsCategory);
+          }
+        } else {
+          const newCategory = this.typeRepository.create({
+            id: Number(category.id),
+            name: category.name,
+          });
+          newCategory.id = Number(newCategory.id);
+          await this.typeRepository.save(newCategory);
+        }
+      });
+      const types = await this.typeRepository.find();
+      return types;
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
 }
