@@ -20,7 +20,9 @@ export class DataService {
 
   async findAll(): Promise<any> {
     try {
-      return await this.updatedData();
+      await this.updatedData();
+      await this.checkingClosedIncident();
+      return { message: 'ok' };
     } catch (error) {
       console.log(error);
     }
@@ -65,6 +67,30 @@ export class DataService {
       return ticketsResponse;
     } catch (error) {
       throw new BadRequestException(error.message);
+    }
+  }
+
+  /**
+   * La función busca tickets abiertos y actualiza su fecha de implementación si se han solucionado.
+   * @returns la variedad de boletos abiertos.
+   */
+  async checkingClosedIncident() {
+    try {
+      const openTickets = await this.dataRepository.find({
+        where: { implementation_date: null },
+      });
+
+      for (const ticket of openTickets) {
+        const checkedTicket = await this.invgateService.getIncidentById(
+          ticket.id,
+        );
+        if (checkedTicket.solved_at) {
+          ticket.implementation_date = Number(checkedTicket.solved_at);
+          await this.dataRepository.save(ticket);
+        }
+      }
+    } catch (error) {
+      console.log(error);
     }
   }
 }

@@ -141,8 +141,14 @@ export class InvgateService {
     return Object.values(data.requests);
   }
 
-  async checkingClosedIncident() {
-    /* Una vez que se tenga la db se deberian buscar en la db los incidentes con closed_at = null,
-     buscarlos en invgate, verificar si ya fueron cerrados, y actualizarlos en la db*/
+  async getIncidentById(id: number) {
+    try {
+      const data = await this.axiosAdapter.getInvgate<Promise<Array<Incident>>>(
+        `${this.url_api}/incidents?ids[]=${id}`,
+      );
+      return Object.values(data)[0];
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
