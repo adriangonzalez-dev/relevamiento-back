@@ -1,12 +1,25 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { AgenteService } from './agente.service';
 import { CreateAgenteDto } from './dto/create-agente.dto';
 import { UpdateAgenteDto } from './dto/update-agente.dto';
+import { CreateRoleDto } from './dto/create-role.dto';
 
 @Controller('agente')
 export class AgenteController {
   constructor(private readonly agenteService: AgenteService) {}
 
+  @Post('/role')
+  createRole(@Body() createRoleDto: CreateRoleDto) {
+    return this.agenteService.createRole(createRoleDto);
+  }
   @Post()
   create(@Body() createAgenteDto: CreateAgenteDto) {
     return this.agenteService.create(createAgenteDto);

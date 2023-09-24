@@ -15,10 +15,7 @@ export class TipoService {
   async updateTypes() {
     try {
       const categories = await this.invgateService.getAllCategories();
-      const findCategories = categories.filter((category) => {
-        return category.parent_category_id === 363;
-      });
-      findCategories.forEach(async (category) => {
+      categories.forEach(async (category) => {
         const existsCategory = await this.typeRepository.findOne({
           where: { id: Number(category.id) },
         });

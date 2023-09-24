@@ -14,7 +14,9 @@ export class Country {
   @Column('text')
   name: string;
 
-  @Column('boolean')
+  @Column('boolean', {
+    default: true,
+  })
   active: boolean;
 
   @CreateDateColumn()

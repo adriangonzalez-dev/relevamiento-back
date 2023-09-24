@@ -4,7 +4,7 @@ import {
   PrimaryColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  OneToMany,
+  ManyToOne,
 } from 'typeorm';
 import { Role } from './role.entity';
 
@@ -16,13 +16,17 @@ export class Agente {
   @Column('text')
   name: string;
 
-  @Column('text')
+  @Column('text', {
+    unique: true,
+  })
   email: string;
 
-  @Column('boolean')
+  @Column('boolean', {
+    default: true,
+  })
   active: boolean;
 
-  @OneToMany(() => Role, (role) => role.id, { cascade: true })
+  @ManyToOne(() => Role, (role) => role.id, { cascade: true })
   role: number;
 
   @CreateDateColumn()

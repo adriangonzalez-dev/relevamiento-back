@@ -11,10 +11,14 @@ export class Role {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column('text')
+  @Column('text', {
+    unique: true,
+  })
   name: string;
 
-  @Column('boolean')
+  @Column('boolean', {
+    default: true,
+  })
   active: boolean;
 
   @CreateDateColumn()

@@ -1,4 +1,4 @@
-import { IsNumber, IsString } from 'class-validator';
+import { IsEmail, IsNumber, IsString } from 'class-validator';
 
 export class CreateAgenteDto {
   @IsNumber()
@@ -8,8 +8,6 @@ export class CreateAgenteDto {
   name: string;
 
   @IsString()
+  @IsEmail()
   email: string;
-
-  @IsNumber()
-  role: number;
 }
