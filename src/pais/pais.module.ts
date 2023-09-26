@@ -9,5 +9,6 @@ import { InvgateModule } from 'src/invgate/invgate.module';
   controllers: [CountryController],
   providers: [CountryService],
   imports: [InvgateModule, TypeOrmModule.forFeature([Country])],
+  exports: [CountryService],
 })
 export class PaisModule {}

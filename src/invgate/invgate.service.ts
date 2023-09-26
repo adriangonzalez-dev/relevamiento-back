@@ -151,4 +151,16 @@ export class InvgateService {
       console.log(error);
     }
   }
+
+  async getIncidentsById(tickets: Array<number>) {
+    try {
+      const link = tickets.join('&ids[]=');
+      const data = await this.axiosAdapter.getInvgate<Promise<Array<Incident>>>(
+        `${this.url_api}/incidents?ids[]=${link}`,
+      );
+      return Object.values(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }

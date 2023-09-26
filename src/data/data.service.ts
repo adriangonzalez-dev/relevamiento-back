@@ -5,11 +5,15 @@ import { InvgateService } from 'src/invgate/invgate.service';
 import { Data } from './entities/data.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { CountryService } from 'src/pais/pais.service';
+import { TipoService } from 'src/tipo/tipo.service';
 
 @Injectable()
 export class DataService {
   constructor(
     private readonly invgateService: InvgateService,
+    private readonly countryService: CountryService,
+    private readonly typeService: TipoService,
     @InjectRepository(Data)
     private readonly dataRepository: Repository<Data>,
   ) {}
@@ -20,8 +24,7 @@ export class DataService {
 
   async findAll(): Promise<any> {
     try {
-      await this.updatedData();
-      await this.checkingClosedIncident();
+      await this.updateDB();
       return { message: 'ok' };
     } catch (error) {
       console.log(error);
@@ -79,8 +82,17 @@ export class DataService {
       const openTickets = await this.dataRepository.find({
         where: { implementation_date: null },
       });
-
-      for (const ticket of openTickets) {
+      const idsTickets = openTickets.map((ticket) => ticket.id);
+      const tickets = await this.invgateService.getIncidentsById(idsTickets);
+      openTickets.forEach(async (ticket) => {
+        tickets.forEach(async (incident) => {
+          if (ticket.id === incident.id && incident.solved_at !== null) {
+            ticket.implementation_date = Number(incident.solved_at);
+          }
+          await this.dataRepository.save(ticket);
+        });
+      });
+      /* for (const ticket of openTickets) {
         const checkedTicket = await this.invgateService.getIncidentById(
           ticket.id,
         );
@@ -88,7 +100,18 @@ export class DataService {
           ticket.implementation_date = Number(checkedTicket.solved_at);
           await this.dataRepository.save(ticket);
         }
-      }
+      } */
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async updateDB() {
+    try {
+      await this.countryService.updatedCountries();
+      await this.typeService.updateTypes();
+      await this.updatedData();
+      await this.checkingClosedIncident();
     } catch (error) {
       console.log(error);
     }

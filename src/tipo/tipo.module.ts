@@ -9,5 +9,6 @@ import { InvgateModule } from 'src/invgate/invgate.module';
   controllers: [TipoController],
   providers: [TipoService],
   imports: [InvgateModule, TypeOrmModule.forFeature([Type])],
+  exports: [TipoService],
 })
 export class TipoModule {}
