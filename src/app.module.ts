@@ -9,6 +9,8 @@ import { SegmentoModule } from './segmento/segmento.module';
 import { PaisModule } from './pais/pais.module';
 import { TipoModule } from './tipo/tipo.module';
 import { AgenteModule } from './agente/agente.module';
+import { ScheduleModule as TaskModule } from './schedule/schedule.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -31,6 +33,8 @@ import { AgenteModule } from './agente/agente.module';
     PaisModule,
     TipoModule,
     AgenteModule,
+    ScheduleModule.forRoot(),
+    TaskModule,
   ],
   controllers: [],
   providers: [],

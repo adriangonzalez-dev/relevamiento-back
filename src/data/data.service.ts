@@ -18,14 +18,35 @@ export class DataService {
     private readonly dataRepository: Repository<Data>,
   ) {}
 
-  create(createDatumDto: CreateDataDto) {
-    return createDatumDto;
+  async create(createDataDto: CreateDataDto) {
+    try {
+      const data = this.dataRepository.create(createDataDto);
+      await this.dataRepository.save(data);
+      return data;
+    } catch (error) {
+      console.log(error);
+      throw new BadRequestException(error.message);
+    }
   }
 
   async findAll(): Promise<any> {
     try {
       await this.updateDB();
-      return { message: 'ok' };
+      const ticketsResponse = await this.dataRepository.find({
+        relations: ['country', 'type', 'via', 'segment', 'agent'],
+      });
+      if (ticketsResponse.length === 0) return [];
+      const currentDate = new Date();
+      const currentYear = currentDate.getFullYear();
+      const currentMonth = currentDate.getMonth();
+      const filteredData = ticketsResponse.filter((ticket) => {
+        const requestDate = new Date(ticket.request_date * 1000);
+        return (
+          requestDate.getFullYear() === currentYear &&
+          requestDate.getMonth() === currentMonth
+        );
+      });
+      return filteredData.sort((a, b) => a.request_date - b.request_date);
     } catch (error) {
       console.log(error);
     }
@@ -48,26 +69,22 @@ export class DataService {
       const tickets = await this.invgateService.getAllInfoInvgate();
       tickets.forEach(async (ticket) => {
         const existsTicket = await this.dataRepository.findOne({
-          where: { id: Number(ticket.id) },
+          where: { id_invgate: Number(ticket.id) },
         });
         if (!existsTicket) {
           const newTicket = this.dataRepository.create({
-            id: ticket.id,
-            country_id: ticket.location_id,
-            id_agent: ticket.assigned_id,
+            id_invgate: ticket.id,
+            country: ticket.location_id,
+            agent: ticket.assigned_id,
             implementation_date: ticket.closed_at,
             request: ticket.title,
             request_date: ticket.created_at,
-            type_id: ticket.category_id,
-            via_id: 3,
+            type: ticket.category_id,
+            via: 3,
           });
           await this.dataRepository.save(newTicket);
         }
       });
-      const ticketsResponse = await this.dataRepository.find({
-        relations: ['country_id', 'type_id', 'via_id'],
-      });
-      return ticketsResponse;
     } catch (error) {
       throw new BadRequestException(error.message);
     }
@@ -82,16 +99,33 @@ export class DataService {
       const openTickets = await this.dataRepository.find({
         where: { implementation_date: null },
       });
-      const idsTickets = openTickets.map((ticket) => ticket.id);
+      if (openTickets.length < 1) return;
+      const idsTickets = openTickets
+        .map((ticket) => {
+          if (ticket.id_invgate) {
+            return ticket.id_invgate;
+          }
+        })
+        .filter((item) => item !== undefined && item !== null);
       const tickets = await this.invgateService.getIncidentsById(idsTickets);
-      openTickets.forEach(async (ticket) => {
+      for (const ticket of openTickets) {
+        for (const incident of tickets) {
+          if (Number(ticket.id_invgate) === Number(incident.id)) {
+            if (incident.solved_at !== null) {
+              ticket.implementation_date = Number(incident.solved_at);
+              await this.dataRepository.save(ticket);
+            }
+          }
+        }
+      }
+      /* openTickets.forEach(async (ticket) => {
         tickets.forEach(async (incident) => {
           if (ticket.id === incident.id && incident.solved_at !== null) {
             ticket.implementation_date = Number(incident.solved_at);
           }
           await this.dataRepository.save(ticket);
         });
-      });
+      }); */
       /* for (const ticket of openTickets) {
         const checkedTicket = await this.invgateService.getIncidentById(
           ticket.id,

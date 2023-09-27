@@ -16,5 +16,6 @@ import { PaisModule } from 'src/pais/pais.module';
     PaisModule,
     TypeOrmModule.forFeature([Data]),
   ],
+  exports: [DataService],
 })
 export class DataModule {}
