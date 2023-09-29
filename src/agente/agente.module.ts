@@ -9,5 +9,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   controllers: [AgenteController],
   providers: [AgenteService],
   imports: [TypeOrmModule.forFeature([Agente, Role])],
+  exports: [AgenteService],
 })
 export class AgenteModule {}

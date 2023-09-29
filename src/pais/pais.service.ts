@@ -12,6 +12,12 @@ export class CountryService {
     private readonly countryRepository: Repository<Country>,
   ) {}
 
+  async findAll() {
+    return await this.countryRepository.find({
+      where: { active: true },
+    });
+  }
+
   async updatedCountries() {
     try {
       const countries = await this.invgateService.getAllLocations();
@@ -32,8 +38,6 @@ export class CountryService {
           await this.countryRepository.save(newCountry);
         }
       });
-      const countriesResponse = await this.countryRepository.find();
-      return countriesResponse;
     } catch (error) {
       throw new BadRequestException(error.message);
     }

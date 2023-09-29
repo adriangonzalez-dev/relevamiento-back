@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CountryService } from 'src/pais/pais.service';
 import { TipoService } from 'src/tipo/tipo.service';
+import { ViaSolicitudService } from 'src/via_solicitud/via_solicitud.service';
 
 @Injectable()
 export class DataService {
@@ -14,6 +15,7 @@ export class DataService {
     private readonly invgateService: InvgateService,
     private readonly countryService: CountryService,
     private readonly typeService: TipoService,
+    private readonly viaService: ViaSolicitudService,
     @InjectRepository(Data)
     private readonly dataRepository: Repository<Data>,
   ) {}
@@ -22,7 +24,7 @@ export class DataService {
     try {
       const data = this.dataRepository.create(createDataDto);
       await this.dataRepository.save(data);
-      return data;
+      return await this.findAll();
     } catch (error) {
       console.log(error);
       throw new BadRequestException(error.message);
@@ -31,7 +33,6 @@ export class DataService {
 
   async findAll(): Promise<any> {
     try {
-      await this.updateDB();
       const ticketsResponse = await this.dataRepository.find({
         relations: ['country', 'type', 'via', 'segment', 'agent'],
       });
@@ -67,6 +68,7 @@ export class DataService {
   async updatedData() {
     try {
       const tickets = await this.invgateService.getAllInfoInvgate();
+      const invgateVia = await this.viaService.findOneByName('Invgate SIA');
       tickets.forEach(async (ticket) => {
         const existsTicket = await this.dataRepository.findOne({
           where: { id_invgate: Number(ticket.id) },
@@ -80,7 +82,7 @@ export class DataService {
             request: ticket.title,
             request_date: ticket.created_at,
             type: ticket.category_id,
-            via: 3,
+            via: invgateVia.id,
           });
           await this.dataRepository.save(newTicket);
         }

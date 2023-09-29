@@ -11,6 +11,7 @@ import { TipoModule } from './tipo/tipo.module';
 import { AgenteModule } from './agente/agente.module';
 import { ScheduleModule as TaskModule } from './schedule/schedule.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { SeedModule } from './seed/seed.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { ScheduleModule } from '@nestjs/schedule';
       password: process.env.POSTGRES_PASSWORD,
       autoLoadEntities: true,
       synchronize: true,
+      ssl: true,
     }),
     InvgateModule,
     DataModule,
@@ -35,6 +37,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     AgenteModule,
     ScheduleModule.forRoot(),
     TaskModule,
+    SeedModule,
   ],
   controllers: [],
   providers: [],

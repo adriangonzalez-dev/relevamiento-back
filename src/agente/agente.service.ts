@@ -22,12 +22,15 @@ export class AgenteService {
   ) {}
 
   async create(createAgenteDto: CreateAgenteDto) {
+    const roleUser = await this.roleRepository.findOne({
+      where: { name: 'user' },
+    });
     try {
       const user = this.agentRepository.create({
         name: createAgenteDto.name,
         email: createAgenteDto.email,
         id: createAgenteDto.id,
-        role: 3,
+        role: roleUser.id,
       });
       await this.agentRepository.save(user);
       return user;

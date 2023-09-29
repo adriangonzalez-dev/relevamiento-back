@@ -57,6 +57,18 @@ export class ViaSolicitudService {
     }
   }
 
+  async findOneByName(name: string) {
+    try {
+      const via = await this.viaRepository.findOne({
+        where: { name, active: true },
+      });
+      if (!via) throw new Error();
+      return via;
+    } catch (error) {
+      throw new NotFoundException('No se encontro la via de solicitud');
+    }
+  }
+
   async update(id: number, updateViaSolicitudDto: UpdateViaSolicitudDto) {
     try {
       let via = await this.findOne(id);

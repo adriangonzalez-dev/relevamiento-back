@@ -8,5 +8,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   controllers: [ViaSolicitudController],
   providers: [ViaSolicitudService],
   imports: [TypeOrmModule.forFeature([Via])],
+  exports: [ViaSolicitudService],
 })
 export class ViaSolicitudModule {}

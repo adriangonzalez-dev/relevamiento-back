@@ -7,6 +7,6 @@ export class CountryController {
 
   @Get()
   findAll() {
-    return this.countryService.updatedCountries();
+    return this.countryService.findAll();
   }
 }

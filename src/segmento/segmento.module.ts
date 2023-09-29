@@ -8,5 +8,6 @@ import { Segment } from './entities/segmento.entity';
   controllers: [SegmentoController],
   providers: [SegmentoService],
   imports: [TypeOrmModule.forFeature([Segment])],
+  exports: [SegmentoService],
 })
 export class SegmentoModule {}
