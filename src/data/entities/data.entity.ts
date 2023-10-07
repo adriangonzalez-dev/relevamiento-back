@@ -24,7 +24,9 @@ export class Data {
   @ManyToOne(() => Type, (type) => type.id, { cascade: true })
   type: number;
 
-  @ManyToOne(() => Country, (country) => country.id, { cascade: true })
+  @ManyToOne(() => Country, (country) => country.id, {
+    cascade: true,
+  })
   country: number;
 
   @Column('text')

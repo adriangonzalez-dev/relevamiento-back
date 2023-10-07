@@ -35,6 +35,9 @@ export class DataService {
     try {
       const ticketsResponse = await this.dataRepository.find({
         relations: ['country', 'type', 'via', 'segment', 'agent'],
+        order: {
+          request_date: 'ASC', // o 'DESC' para ordenar de manera descendente
+        },
       });
       if (ticketsResponse.length === 0) return [];
       const currentDate = new Date();
@@ -47,7 +50,7 @@ export class DataService {
           requestDate.getMonth() === currentMonth
         );
       });
-      return filteredData.sort((a, b) => a.request_date - b.request_date);
+      return filteredData;
     } catch (error) {
       console.log(error);
     }
