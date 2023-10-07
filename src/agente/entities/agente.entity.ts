@@ -26,7 +26,7 @@ export class Agente {
   })
   active: boolean;
 
-  @ManyToOne(() => Role, (role) => role.id, { cascade: true })
+  @ManyToOne(() => Role, (role) => role.id, { cascade: true, eager: true })
   role: number;
 
   @CreateDateColumn()
