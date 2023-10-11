@@ -12,6 +12,7 @@ import { AgenteModule } from './agente/agente.module';
 import { ScheduleModule as TaskModule } from './schedule/schedule.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { SeedModule } from './seed/seed.module';
+import { GoogleapisModule } from './googleapis/googleapis.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { SeedModule } from './seed/seed.module';
     ScheduleModule.forRoot(),
     TaskModule,
     SeedModule,
+    GoogleapisModule,
   ],
   controllers: [],
   providers: [],
