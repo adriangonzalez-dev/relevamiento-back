@@ -38,6 +38,9 @@ dependencies:
   class-validator:
     specifier: ^0.14.0
     version: 0.14.0
+  google-auth-library:
+    specifier: ^9.1.0
+    version: 9.1.0
   googleapis:
     specifier: ^126.0.1
     version: 126.0.1
@@ -3106,8 +3109,8 @@ packages:
       slash: 3.0.0
     dev: true
 
-  /google-auth-library@9.0.0:
-    resolution: {integrity: sha512-IQGjgQoVUAfOk6khqTVMLvWx26R+yPw9uLyb1MNyMQpdKiKt0Fd9sp4NWoINjyGHR8S3iw12hMTYK7O8J07c6Q==}
+  /google-auth-library@9.1.0:
+    resolution: {integrity: sha512-1M9HdOcQNPV5BwSXqwwT238MTKodJFBxZ/V2JP397ieOLv4FjQdfYb9SooR7Mb+oUT2IJ92mLJQf804dyx0MJA==}
     engines: {node: '>=14'}
     dependencies:
       base64-js: 1.5.1
@@ -3128,7 +3131,7 @@ packages:
     dependencies:
       extend: 3.0.2
       gaxios: 6.1.1
-      google-auth-library: 9.0.0
+      google-auth-library: 9.1.0
       qs: 6.11.2
       url-template: 2.0.8
       uuid: 9.0.0
@@ -3141,7 +3144,7 @@ packages:
     resolution: {integrity: sha512-4N8LLi+hj6ytK3PhE52KcM8iSGhJjtXnCDYB4fp6l+GdLbYz4FoDmx074WqMbl7iYMDN87vqD/8drJkhxW92mQ==}
     engines: {node: '>=14.0.0'}
     dependencies:
-      google-auth-library: 9.0.0
+      google-auth-library: 9.1.0
       googleapis-common: 7.0.0
     transitivePeerDependencies:
       - encoding
