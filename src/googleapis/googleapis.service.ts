@@ -33,13 +33,22 @@ interface Audits {
 
 @Injectable()
 export class GoogleapisService {
+  private readonly spreadsheetIdLvl1 =
+    '1PXPNQZb7cUOHPSl0Tsoi25lkB5x4oiE0GUV3GP_DAgk';
+  private readonly spreadsheetIdAudit =
+    '17VmsSZsCIJ9BKX_62NgrrtBVq4NXF2LVP-fe_p21mTQ';
+  private readonly rangeLvl1 = 'Respuestas de formulario 1!A:K';
+  private readonly auditTickets = 'Auditoria TKS!A:M';
   constructor(private readonly googleAuthService: GoogleAPIAdapter) {}
   create() {
     return 'This action adds a new googleapi';
   }
 
   async getDataLvl1() {
-    const data = await this.googleAuthService.getDataLvl1();
+    const data = await this.googleAuthService.getData({
+      range: this.rangeLvl1,
+      spreedsheetId: this.spreadsheetIdLvl1,
+    });
     const result = [];
 
     for (let i = 1; i < data.length; i++) {
@@ -99,7 +108,10 @@ export class GoogleapisService {
   }
 
   async getDataAudit() {
-    const data = await this.googleAuthService.getDataAudit();
+    const data = await this.googleAuthService.getData({
+      range: this.auditTickets,
+      spreedsheetId: this.spreadsheetIdAudit,
+    });
     const result = [];
 
     for (let i = 1; i < data.length; i++) {
