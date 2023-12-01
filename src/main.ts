@@ -3,11 +3,11 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule,{cors:true});
+  const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('api');
- /*  app.enableCors({
-    origin: 'http://localhost:5173',
-  }); */
+  app.enableCors({
+    origin: 'https://dev--glittering-rabanadas-e31e1d.netlify.app/',
+  });
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
