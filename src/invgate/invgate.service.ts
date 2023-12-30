@@ -67,7 +67,7 @@ export class InvgateService {
   constructor(private readonly axiosAdapter: AxiosAdapter) {
     this.url_api = 'https://siaint.cloud.invgate.net/api/v1';
     this.url_api_olap = 'https://siaint.cloud.invgate.net/api-olap/v1';
-    this.users = [423, 161, 1059, 1740];
+    this.users = [423, 161, 1059, 1740, 1944];
   }
   /**
    * La función `getAllInfoInvgate` recupera de forma asincrónica incidentes para múltiples agentes y
