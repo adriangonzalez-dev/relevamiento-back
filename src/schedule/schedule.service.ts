@@ -6,11 +6,11 @@ import { Cron, CronExpression } from '@nestjs/schedule';
 export class ScheduleService {
   constructor(private readonly dataService: DataService) {}
 
-  @Cron(CronExpression.EVERY_30_MINUTES) // Ejecuta la tarea cada hora (puedes ajustar la programación según tus necesidades)
+  @Cron(CronExpression.EVERY_12_HOURS) // Ejecuta la tarea cada hora (puedes ajustar la programación según tus necesidades)
   async handleCron() {
     try {
-      await this.dataService.updateDB();
-      console.log('db actualizada...');
+      /* await this.dataService.updateDB(); */
+      console.log('Actualizacion desde api desactivada...');
     } catch (error) {
       console.log(error);
     }

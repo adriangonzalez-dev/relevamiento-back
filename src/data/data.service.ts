@@ -41,8 +41,8 @@ export class DataService {
       });
       if (ticketsResponse.length === 0) return [];
       const currentDate = new Date();
-      const currentYear = currentDate.getFullYear();
-      const currentMonth = currentDate.getMonth();
+      const currentYear = /* currentDate.getFullYear(); */2024 //Hardcodeado para que traiga datos de diciembre 2023
+      const currentMonth = /* currentDate.getMonth(); */0
       const filteredData = ticketsResponse.filter((ticket) => {
         const requestDate = new Date(ticket.request_date * 1000);
         return (
